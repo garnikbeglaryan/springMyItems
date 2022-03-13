@@ -1,0 +1,38 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring | MVC</title>
+</head>
+<body>
+Users:
+<!--<ul th:if="${users != null}">-->
+<!--    <li th:each="u : ${users}" th:text="${u.name}"></li>-->
+<!--</ul>-->
+<a href="?lang=hy">Armenian</a> | <a href="?lang=ru">Russian</a> | <a href="?lang=en">English</a>
+<br><br>
+<div th:include="fragments/main-fragment:: login"></div>
+<br><br>
+<a href="/items" th:text="#{main.view.all.items}"></a>
+<a href="/addUser" th:text="#{main.add.user}"> </a>
+<table>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>surname</th>
+        <th>email</th>
+        <th th:if="${user!=null}">action</th>
+        <td>items</td>
+    </tr>
+    <tr th:each="u : ${users}">
+        <td th:text="${u.id}"></td>
+        <td th:text="${u.name}"></td>
+        <td th:text="${u.surname}"></td>
+        <td th:text="${u.email}"></td>
+        <td><a th:href="@{'/items/byUser/' + ${u.id}}">view user items</a></td>
+        <td th:if="${user!=null}"><a th:href="@{'/deleteUser/' + ${u.id}}">delete </a> | <a th:href="@{'/editUser/' + ${u.id}}"> edit </a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
