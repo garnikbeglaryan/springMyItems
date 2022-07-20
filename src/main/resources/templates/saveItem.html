@@ -6,6 +6,11 @@
 </head>
 <body>
 Save Item:
+<div th:if="${errors != null && !errors.isEmpty()}">
+    <ul>
+        <li style="color: red" th:each="error: ${errors}" th:text="${error}"></li>
+    </ul>
+</div>
 <form action="/items/add" method="post" enctype="multipart/form-data">
     <input th:if="${item != null}" type="hidden" th:value="${item.id}" name="id">
     title: <input type="text" name="title" th:value="${item == null} ? '' : ${item.title}"/> <br>
@@ -13,7 +18,7 @@ Save Item:
     description:<textarea name="description" th:text="${item == null} ? '' : ${user.description}"></textarea><br>
     picture:<input type="file" name="pictures" multiple/><br>
     Categories:
-    <select name ="categories[]" multiple>
+    <select name="categories[]" multiple>
         <option th:each="cat:${categories}" th:text="${cat.name}" th:value="${cat.id}"></option>
     </select><br>
     <input type="submit" value="save">

@@ -6,10 +6,12 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
 
     List<User> findAllByName(String name);
     Optional<User> findByEmail(String email);
+    Optional<User> findByToken(String token);
 }

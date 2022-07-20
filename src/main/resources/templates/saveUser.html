@@ -5,8 +5,13 @@
     <title>Add user</title>
 </head>
 <body>
+<div th:if="${errors != null && !errors.isEmpty()}">
+    <ul>
+        <li style="color: red" th:each="error: ${errors}" th:text="${error}"></li>
+    </ul>
+</div>
 Add User:
-<form action="/addUser" method="post">
+<form action="/user/add" method="post">
     <input th:if="${user != null}" type="hidden" th:value="${user.id}" name="id">
     Name: <input type="text" name="name" th:value="${user == null} ? '' : ${user.name}"/> <br>
     surname:<input type="text" name="surname" th:value="${user == null} ? '' : ${user.surname}"/><br>

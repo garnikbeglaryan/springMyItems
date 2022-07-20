@@ -14,6 +14,7 @@ import java.util.Locale;
 public class I18nConfig implements WebMvcConfigurer {
 
 
+
     @Bean
     public LocaleResolver localeResolver(){
         CookieLocaleResolver slr = new CookieLocaleResolver();

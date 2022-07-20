@@ -26,6 +26,8 @@ public class ItemService {
 
 
     private final ItemRepository itemRepository;
+
+
     private final UserRepository userRepository;
     private final ItemImageRepository itemImageRepository;
     private final CategoryRepository categoryRepository;
@@ -34,14 +36,24 @@ public class ItemService {
     private String imagePath;
 
 
-    public Item addItemFromItemRequest(CreateItemRequest createItemRequest,
-                                       MultipartFile[] uploadedFiles,User user) throws IOException {
-        List<Category> categories = getCategoriesFromRequest(createItemRequest);
-        Item item = getItemFromRequest(createItemRequest, categories);
+//    public Item addItemFromItemRequest(CreateItemRequest createItemRequest,
+//                                       MultipartFile[] uploadedFiles,User user) throws IOException {
+//        List<Category> categories = getCategoriesFromRequest(createItemRequest);
+//        Item item = getItemFromRequest(createItemRequest, categories);
+//        item.setUser(user);
+//        itemRepository.save(item);
+//        saveItemImages(uploadedFiles, item);
+//        return item;
+//    }
+
+    public Item addItem(Item item, MultipartFile[] uploadedFiles, User user, List<Integer> categories) throws IOException {
+        List<Category> categoriesFromDB = getCategoriesFromRequest(categories);
         item.setUser(user);
+        item.setCategories(categoriesFromDB);
         itemRepository.save(item);
         saveItemImages(uploadedFiles, item);
         return item;
+
     }
 
 
@@ -81,24 +93,24 @@ public class ItemService {
         }
     }
 
-    private List<Category> getCategoriesFromRequest(CreateItemRequest createItemRequest) {
+    private List<Category> getCategoriesFromRequest(List<Integer> categoriesIds) {
         List<Category> categories = new ArrayList<>();
-        for (Integer category : createItemRequest.getCategories()) {
+        for (Integer category : categoriesIds) {
             categories.add(categoryRepository.getById(category));
         }
         return categories;
     }
 
 
-    private Item getItemFromRequest(CreateItemRequest createItemRequest, List<Category> categories) {
-        Item item = Item.builder()
-                .id(createItemRequest.getId())
-                .title(createItemRequest.getTitle())
-                .description(createItemRequest.getDescription())
-                .price(createItemRequest.getPrice())
-                .categories(categories)
-                .build();
-        return item;
-    }
-
+//    private Item getItemFromRequest(CreateItemRequest createItemRequest, List<Category> categories) {
+//        Item item = Item.builder()
+//                .id(createItemRequest.getId())
+//                .title(createItemRequest.getTitle())
+//                .description(createItemRequest.getDescription())
+//                .price(createItemRequest.getPrice())
+//                .categories(categories)
+//                .build();
+//        return item;
+//    }
+    
 }

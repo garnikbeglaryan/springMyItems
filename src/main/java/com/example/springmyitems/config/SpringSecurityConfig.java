@@ -21,6 +21,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsImpl userDetails;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -34,7 +37,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers(HttpMethod.GET, "/addUser").permitAll()
-                .antMatchers(HttpMethod.POST, "/addUser").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/add").permitAll()
+                .antMatchers(HttpMethod.GET, "/user/activate").permitAll()
                 .antMatchers("/items/add").hasAnyAuthority(Role.USER.name(), Role.ADMIN.name())
                 .antMatchers("/deleteUser/{id}").hasAnyAuthority(Role.ADMIN.name())
                 .anyRequest().authenticated();
@@ -44,11 +48,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetails)
-                .passwordEncoder(passwordEncoder());
+                .passwordEncoder(passwordEncoder);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 }
